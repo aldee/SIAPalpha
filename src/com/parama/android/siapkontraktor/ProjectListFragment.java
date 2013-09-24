@@ -20,6 +20,8 @@ import com.parama.android.siapkontraktor.dummy.DummyContent;
  * interface.
  */
 public class ProjectListFragment extends ListFragment {
+	
+	public static ArrayAdapter<DaftarProyek.Proyek> adapter;
 
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
@@ -77,9 +79,9 @@ public class ProjectListFragment extends ListFragment {
 				android.R.layout.simple_list_item_activated_1,
 				android.R.id.text1, DummyContent.ITEMS));
 		*/
-		setListAdapter(new ArrayAdapter<DaftarProyek.Proyek>(getActivity(),
-				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1, DaftarProyek.ITEMS));
+		
+		adapter = new ArrayAdapter<DaftarProyek.Proyek>(getActivity(), android.R.layout.simple_list_item_activated_1, android.R.id.text1, DaftarProyek.ITEMS);
+		setListAdapter(adapter);
 	}
 
 	@Override
