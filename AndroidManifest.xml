@@ -40,6 +40,18 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ProjectListActivity" />
         </activity>
+        <activity
+            android:name="com.parama.android.siapkontraktor.KaryawanListActivity"
+            android:label="@string/title_karyawan_list" >
+        </activity>
+        <activity
+            android:name="com.parama.android.siapkontraktor.KaryawanDetailActivity"
+            android:label="@string/title_karyawan_detail"
+            android:parentActivityName=".KaryawanListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".KaryawanListActivity" />
+        </activity>
     </application>
 
 </manifest>

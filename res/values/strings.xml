@@ -7,5 +7,7 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="title_project_list">Projects</string>
     <string name="title_project_detail">Project Detail</string>
+    <string name="title_karyawan_list">Karyawan</string>
+    <string name="title_karyawan_detail">Karyawan Detail</string>
 
 </resources>

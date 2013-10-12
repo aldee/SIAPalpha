@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <!--
@@ -5,8 +6,9 @@
     two-pane version on Large screens.
 
     For more on layout aliases, see:
-    http://developer.android.com/training/multiscreen/screensizes.html#TaskUseAliasFilters
+    http://developer.android.com/training/multiscreen/screensizes.html#TaskUseAliasFilters
     -->
     <item name="activity_project_list" type="layout">@layout/activity_project_twopane</item>
+    <item name="activity_karyawan_list" type="layout">@layout/activity_karyawan_twopane</item>
 
 </resources>
