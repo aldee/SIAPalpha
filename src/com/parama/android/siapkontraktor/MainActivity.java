@@ -34,6 +34,7 @@ public class MainActivity extends Activity {
 		map = new HashMap<String, String>();
 		
 		map.put("1", "Daftar Proyek");
+        map.put("2", "Daftar Karyawan");
 		dataList.add(map);
 		
 		String[] from = new String[] {
