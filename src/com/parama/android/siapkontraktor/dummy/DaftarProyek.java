@@ -10,12 +10,16 @@ public class DaftarProyek {
 	public static Map<String, Proyek> ITEM_MAP = new HashMap<String, Proyek>();
 	
 	static {
-		addItem(new Proyek("1", "Rumah", "212", "200000"));
+		//addItem(new Proyek("1", "Rumah", "212", "200000"));
 	}
 	
 	public static void addItem(Proyek item) {
 		ITEMS.add(item);
 		ITEM_MAP.put(item.id, item);
+	}
+	
+	public static void removeItems() {
+		ITEM_MAP.clear();
 	}
 	
 	public static class Proyek {

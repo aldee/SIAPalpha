@@ -1,8 +1,26 @@
 package com.parama.android.siapkontraktor;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.parama.android.siapkontraktor.dummy.DaftarProyek;
+import com.parama.android.siapkontraktor.dummy.DaftarProyek.Proyek;
+
+import android.app.ListFragment;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.SimpleAdapter;
+
+import java.text.NumberFormat;
+import java.util.*;
 
 /**
  * An activity representing a list of Projects. This activity has different
@@ -28,11 +46,26 @@ public class ProjectListActivity extends FragmentActivity implements
 	 * device.
 	 */
 	private boolean mTwoPane;
+	private JSONParser jParser = new JSONParser();
+	public static DefaultHttpClient httpClient;
+	public JSONObject json;
+	public static DaftarProyek dp;
+	private ProgressDialog pDialog;
+	public static JSONArray datas;
+	
+	public static String id = "";
+	public static String namaProyek = "";
+	public static String kodeProyek = "";
+	public static String nilaiKontrak = "";
+	private static final String url_all_proyek = "http://siap-kontraktor.com/android/api/get_all_proyek.php";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_project_list);
+		
+		httpClient = LoginActivity.httpClient;
+		dp = new DaftarProyek();
 
 		if (findViewById(R.id.project_detail_container) != null) {
 			// The detail container view will be present only in the
@@ -48,7 +81,67 @@ public class ProjectListActivity extends FragmentActivity implements
 					.setActivateOnItemClick(true);
 		}
 
-		// TODO: If exposing deep links into your app, handle intents here.
+		new GetAllProyek().execute();
+	}
+	
+	class GetAllProyek extends AsyncTask<String, String, String> {
+		
+		protected void onPreExecute() {
+			super.onPreExecute();
+			ProjectListFragment.adapter.clear();
+			DaftarProyek.removeItems();
+			pDialog = new ProgressDialog(ProjectListActivity.this);
+			pDialog.setMessage("Please Wait");
+			pDialog.setCancelable(false);
+			pDialog.setIndeterminate(false);
+			pDialog.show();
+		}
+		
+		@Override
+		protected String doInBackground(String... arg0) {
+			// TODO Auto-generated method stub
+			List<NameValuePair> params1 = new ArrayList<NameValuePair>();
+			json = jParser.makeHttpRequest(url_all_proyek, "GET", params1, LoginActivity.httpClient);
+			try {
+				int success = json.getInt("success");
+				if (success == 1) {
+					datas = json.getJSONArray("data");
+					for (int i = 0; i < datas.length() ; i++) {
+						JSONObject c = datas.getJSONObject(i);
+						id = Integer.toString(i);
+						namaProyek = c.getString("nama");
+						kodeProyek = c.getString("kode");
+						nilaiKontrak = c.getString("nilai_kon");
+						Log.v("JSON", datas.toString());
+					}
+				}
+
+				else {
+
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			
+
+			DaftarProyek.addItem(new Proyek(id, namaProyek, kodeProyek, nilaiKontrak));
+			return null;
+		}
+		
+		protected void onPostExecute(String arg) {
+			ListFragment frag = (ListFragment) getFragmentManager().findFragmentById(R.id.project_list);
+			ProjectListActivity.this.runOnUiThread(new Runnable() {
+
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					ProjectListFragment.adapter.notifyDataSetChanged();
+					pDialog.dismiss();
+				}
+
+			});
+		}
+		
 	}
 
 	/**
